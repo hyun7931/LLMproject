@@ -1,0 +1,82 @@
+@font-face {
+    font-family: 'PartialSansKR-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/PartialSansKR-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 전체 화면 높이 */
+    margin: 0;
+    background-image: url('./images/background.png');
+    background-size: cover; /* 배경 이미지가 전체 화면에 맞게 크기 조정 */
+    background-position: center; /* 배경 이미지가 중앙에 위치하도록 설정 */
+    background-repeat: no-repeat
+    /*background-color: #e0e0e0;  */
+}
+
+.background {
+    text-align: left; /* 왼쪽 정렬 */
+    display: flex;
+    width:100%;
+    height:100%;
+    flex-direction: column; /* 세로 방향으로 배치 */
+    justify-content: center; /* 세로 중앙 정렬 */
+    align-items: flex-start; /* 왼쪽 정렬 */
+    padding-left: 100px; /* 왼쪽 여백 추가 */
+    /*border: 1px solid #ccc;
+    background-color: #fff;*/
+    border-radius: 10px;
+    background-color: rgb(0, 0, 0, 0.65); /* 검정색 배경, 투명도 설정 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
+}
+
+
+.header {
+    margin-bottom: 20px; /* 헤더와 버튼 사이 간격 */
+}
+
+h1 {
+    font-family: 'PartialSansKR-Regular'; /* 제목에 DNFBitBitv2 폰트 적용 */
+    font-size: 100px; /* 'Welcome to'의 글자 크기 (더 크게) */
+    margin: 0;
+    color:#fff
+}
+
+h2 {
+    font-family: 'PartialSansKR-Regular'; /* KOAT에 DNFBitBitv2 폰트 적용 */
+    font-size: 144px; /* 'KOAT'의 글자 크기 (더 크게) */
+    margin: 10px 0;
+    color: #007BFF; /* KOAT의 색상 (선택적) */
+}
+
+.main-button {
+    font-family: 'PartialSansKR-Regular'; /* 버튼 텍스트에 GmarketSansMedium 폰트 적용 */
+    padding: 30px 60px;
+    text-align: center;
+    font-size: 20px; /* 버튼 텍스트 크기 (더 크게) */
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF; /* 버튼 배경색 */
+    color: white;
+    cursor: pointer;
+    padding-left: 40px;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.main-button:hover {
+    background-color: #0056b3; /* 버튼 호버 색상 */
+}

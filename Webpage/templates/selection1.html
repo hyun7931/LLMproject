@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_s1.css') }}">
+    <title>Search and List</title>
+</head>
+<body>
+    <div class="container">
+        <!-- 왼쪽 검색창과 결과 테이블 -->
+        <div class="search-section">
+            <input type="text" class="search-input" placeholder="검색...">
+            <button onclick="search()">Search</button>
+            <div class="result-container">
+                <!-- 검색 결과 표 -->
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th class="small-col">Add</th>
+                        </tr>
+                    </thead>
+                    <tbody id="search-result">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 오른쪽 표 형태의 리스트 -->         
+        <div class="list-section">
+            <h2 class="list-title">My Travel Place List</h2>
+            <div class="places-container">
+                <table class="places-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th class="small-col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="places-list">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 하단 버튼 -->
+    <div class="button-section">
+        <a href="/select-place/recommed"><button class="main-button" onclick="sendPlacesData()">Want Recommendation</button></a>
+        <a href="/plan"><button class="next-button" onclick="sendPlacesData()">Next</button></a>
+    </div>
+
+</body>
+<script>
+    // 검색 기능
+    function search() {
+        const query = document.querySelector('.search-input').value;
+
+        fetch('/select-place/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                'query': query
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultsTable = document.getElementById('search-result');
+            resultsTable.innerHTML = '';  // 기존 결과 지우기
+
+            // 검색 결과를 표에 추가
+            data.forEach(result => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${result[0]}</td>
+                    <td>${result[1]}</td>
+                    <td><button class="add-button" onclick="addToList('${result[0]}', '${result[1]}')">Add</button></td>
+                `;
+                resultsTable.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // 오른쪽 리스트로 추가하는 함수
+    function addToList(name, type) {
+        const placesList = document.getElementById('places-list');
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${name}</td>
+            <td>${type}</td>
+            <td><button class="delete-button" onclick="deleteFromList(this)">X</button></td>
+        `;
+        placesList.appendChild(row);
+
+        // 서버로 추가한 데이터 전송
+        sendPlaceData(name, type);
+    }
+
+    // 리스트에서 삭제하는 함수
+    function deleteFromList(button) {
+        const row = button.parentElement.parentElement;
+        row.remove();
+    }
+</script>
+</html>

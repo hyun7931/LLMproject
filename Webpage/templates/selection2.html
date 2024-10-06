@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_s2.css') }}">
+    <title>Search and List</title>
+</head>
+<body>
+    <div class="container">
+        <!-- 왼쪽 검색창과 결과 테이블 -->
+        <div class="search-section">
+            <input type="text" class="search-input" placeholder="검색...">
+            <div class="result-container">
+                <!-- 검색 결과 표 -->
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th class="small-col">Add</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 오른쪽 표 형태의 리스트 -->         
+        <div class="list-section">
+            <h2 class="list-title">My Travel Place List</h2>
+            <div class="places-container">
+                <table class="places-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th class="small-col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="places-list">
+                        <!-- 여기에 장소 정보를 추가합니다 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="keyword-section">
+            <div class="keyword-container">
+                <table class="keyword-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Keyword</th>
+                        <th class="small-col">Add</th>  
+                    </tr>
+                </table>
+                <tbody id="keyword-list">
+
+                </tbody>
+            </div>
+        </div>
+
+        <!-- 하단 Reload 버튼 -->
+        <div class="reload-section">
+            <button class="reload-button">Reload</button>
+            <a href="/plan"><button class="next-button">Next</button></a>
+        </div>
+    </div>
+
+    <script>
+        // URL에서 장소 정보를 받아서 My Travel Place List에 추가하는 함수
+        function addToTravelList(name, type) {
+            const placesList = document.getElementById('places-list');
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${name}</td>
+                <td>${type}</td>
+                <td><input type="text" placeholder="Enter keyword"></td>
+                <td><button class="delete-button" onclick="deleteFromList(this)">X</button></td>
+            `;
+            placesList.appendChild(row);
+        }
+
+        // 리스트에서 삭제하는 함수
+        function deleteFromList(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+
+        // 페이지가 로드될 때 URL에서 장소 정보를 가져와서 리스트에 추가
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const results = params.get('results');
+            const placesData = results ? JSON.parse(decodeURIComponent(results)) : [];
+
+            placesData.forEach(place => {
+                addToTravelList(place.name, place.type);
+            });
+        };
+
+        // Fetch API를 통해 유사한 장소를 가져오는 예시
+        function fetchSimilarPlaces() {
+            fetch('/get-similar-places', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ searchTerm: 'example' })  // 데이터를 백엔드로 전송
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 현재 테이블을 지웁니다.
+                let tableBody = document.querySelector(".keyword-table tbody");
+                tableBody.innerHTML = "";
+
+                // 수신한 데이터를 테이블에 추가
+                data.similar_places.forEach(place => {
+                    let row = `<tr>
+                                <td>${place[0]}</td>
+                                <td>${place[1]}</td>
+                                <td>${place[2]}</td>
+                                <td><button class="add-button" onclick="addToTravelList('${place[0]}', '${place[1]}')">Add</button></td>
+                            </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function search() {
+        const query = document.querySelector('.search-input').value;
+
+        fetch('/select-place/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                'query': query
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultsTable = document.getElementById('search-result');
+            resultsTable.innerHTML = '';  // 기존 결과 지우기
+
+            // 검색 결과를 표에 추가
+            data.forEach(result => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${result[0]}</td>
+                    <td>${result[1]}</td>
+                    <td><button class="add-button" onclick="addToList('${result[0]}', '${result[1]}')">Add</button></td>
+                `;
+                resultsTable.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // 오른쪽 리스트로 추가하는 함수
+    function addToList(name, type) {
+        const placesList = document.getElementById('places-list');
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${name}</td>
+            <td>${type}</td>
+            <td><button class="delete-button" onclick="deleteFromList(this)">X</button></td>
+        `;
+        placesList.appendChild(row);
+
+        // 서버로 추가한 데이터 전송
+        sendPlaceData(name, type);
+    }
+
+        // 페이지가 로드될 때 유사한 장소를 자동으로 가져오는 함수를 호출할 수 있습니다.
+        // window.onload = function() {
+        //     fetchSimilarPlaces();
+        // };
+    </script>
+</body>
+</html>

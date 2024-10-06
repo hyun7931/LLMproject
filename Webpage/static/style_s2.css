@@ -1,0 +1,208 @@
+@font-face {
+    font-family: 'PartialSansKR-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/PartialSansKR-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'GmarketSansMedium';
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgb(0,0,0,0.9);
+
+}
+
+.container {
+    font-family:'GmarketSansMedium';
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px; /* 검색창과 버튼 사이 간격 */
+}
+
+/* 왼쪽 검색창과 결과 테이블 */
+.search-section {
+    margin-top: 30px;
+    margin-left: 20px;
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: white;
+}
+
+.results-container {
+    height: 290px; /* 기본 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤바 추가 */
+}
+
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.results-table th, .results-table td {
+    padding: 10px;
+    height: 10px;
+    text-align: left;
+    border: none;
+    color: white;
+}
+
+.results-table th {
+    background-color: #007BFF; /* 첫 줄 배경색 추가 */
+    color: white; /* 글씨 색상 */
+}
+
+/* 오른쪽 표 형태 */
+.list-section {
+    width: 55%;
+    margin-right: 20px;
+}
+
+.list-title {
+    margin-top: 40px;
+    color: white;
+    font-size: 20px;
+    font-weight: bolder;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.places-container {
+    height: 290px; /* 기본 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤바 추가 */
+}
+
+.places-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* 테두리 제거 */
+}
+
+.places-table th, .places-table td {
+    padding: 10px;
+    height: 10px;
+    text-align: left;
+    border: none; /* 표의 가로 및 세로 줄 제거 */
+    color: white;
+}
+
+.places-table th {
+    background-color: #007BFF; /* 첫 줄 배경색 추가 */
+    color: white; /* 글씨 색상 */
+}
+
+.small-col {
+    width: 80px; /* 삭제 열 크기 줄이기 */
+}
+
+.delete-button {
+    padding: 5px 10px;
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.keyword-section {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.keyword-container {
+    max-height: 220px; /* 키워드 테이블의 최대 높이 */
+    overflow-y: auto; /* 수직 스크롤 가능 */
+}
+
+.keyword-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.keyword-table th, .keyword-table td {
+    border: none;
+    padding: 10px;
+    text-align: left;
+    color: white;
+}
+
+.keyword-table th {
+    background-color:#007BFF;
+    color: white;
+}
+
+.add-button {
+    padding: 5px 10px;
+    color: white;
+    background-color: green;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+/* 하단 중앙 버튼 */
+.reload-section {
+    display: flex;
+    justify-content: center;
+}
+
+.reload-button {
+    margin-top: 50px;
+    padding: 15px 30px;
+    font-size: 20px;
+    font-weight: bolder;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.next-button {
+    margin-top: 50px;
+    margin-left: 20px; /* Want Recommendation 버튼과의 간격 */
+    padding: 15px 30px; /* 버튼 내부 여백 */
+    font-size: 20px;
+    font-weight: bolder;
+    background-color: #007BFF; /* 배경색 */
+    color: white; /* 글자색 */
+    border: none; /* 테두리 없음 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    cursor: pointer; /* 커서 모양 */
+}
+
+.reload-button:hover {
+    background-color: #0056b3; /* hover 시 색상 변경 */
+}
+.next-button:hover {
+    background-color: #0056b3; /* hover 시 색상 변경 */
+}
+
+::-webkit-scrollbar {
+    width: 12px; /* 스크롤바의 너비 */
+    background-color: #f1f1f1; /* 스크롤바 배경 색상 */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #007BFF; /* 스크롤바의 thumb 색상 */
+}
